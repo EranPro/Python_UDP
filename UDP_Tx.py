@@ -8,7 +8,7 @@ import socket
 import time
 
 Payload = "Hello UDP Server"
-DesAddr = ("127.0.0.1", 20001)
+DesAddr = ("127.0.0.1", 20002)
 
 
 
@@ -18,7 +18,12 @@ def sendMessage(Payload, DesAddr, NumOfTimes, Delay):
     
     for Num in range(NumOfTimes):
         print("Sending msg# {}/{}".format(Num+1, NumOfTimes))
-        UDPClientSocket.sendto(bytesToSend, DesAddr)
+        
+        try:
+            UDPClientSocket.sendto(bytesToSend, DesAddr)
+        except Exception as e:
+            print("==== Warning==== Failed to send msg# {}/{}. Failure reason:{}".format(Num+1, NumOfTimes, e))    
+        
         time.sleep(Delay)
         
 sendMessage(Payload, DesAddr, 4, 2)
